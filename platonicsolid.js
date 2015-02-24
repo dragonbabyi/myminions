@@ -64,8 +64,8 @@ function update(){
     Ico.rotation.z = 0.5;
     scene.add(Ico);
 
-    size = old_size;
-    division = old_division;
+    old_size = size;
+    old_division = division;
   };
 
   Ico.rotation.x+=2/50;
