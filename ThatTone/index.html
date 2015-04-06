@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>That Tone!!</title>
+	<script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery.ui.slider.js"></script>
+    <script type="text/javascript" src="js/stats.min.js"></script>
+    <script type="text/javascript" src="js/Detector.js"></script>
+    <script type="text/javascript" src="js/three.min.js"></script> 
+    <script type="text/javascript" src="toolbar.js"></script>
+    <script type="text/javascript" src="render.js"></script>
+
+    <script src="shaders/vertexshader.vert" type="x-shader/x-vertex" id="vertexshader"></script>
+    <script src="shaders/linear.frag" type="x-shader/x-fragment" id="linear"></script>
+    <script src="shaders/HableFilmic.frag" type="x-shader/x-fragment" id="HableFilmic"></script>>
+	<script src="shaders/ReinhardHdr.frag" type="x-shader/x-fragment" id="ReinhardHdr"></script>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div id="toolbar">
+        <div class="button" id="load">Load</div>
+        <div class="button" id="save">Save</div>
+        <div class="button" id="about">About</div>
+        <div style="display: block; text-align: center;"> <p>  ~~ That Tone ~~ </p> </div>
+    </div>
+    <div id="sidebar">
+        <!-- <div class="header" id="">Tone mapping</div> -->
+    </div>
+    <div id="editor">
+        <!-- <canvas id = "ViewContainer"></canvas> -->
+    </div>
+
+    <div id="fade"></div>
+    <div id="dialog"></div>
+
+    <script type="text/javascript" src="frame.js"></script>
+    
+</body>
+</html>
