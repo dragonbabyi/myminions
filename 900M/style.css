@@ -1,3 +1,8 @@
+.stop-scrolling {
+  height: 100%;
+  overflow: hidden;
+}
+
 body{
   background: #000;
   padding-top: 10px;
@@ -25,13 +30,6 @@ body{
   margin-left: 0px;
 }
 
-/*.ViewContainer {
-  position: absolute;
-  width: 600px;
-  height: 50px;
-  margin-left: 200px;
-}*/
-
 p{
   color: lime; 
   font-family: "Courier";
@@ -52,24 +50,16 @@ p a{
   text-decoration: none;
 }
 
-span{
-  animation: blink 1s infinite;
+input{
+  vertical-align:middle; 
+  text-align: center; 
 }
 
-@keyframes type{ 
-  from { width: 0; } 
-} 
-
-@keyframes type2{
-  0%{width: 0;}
-  50%{width: 0;}
-  100%{ width: 100; } 
-} 
-
-@keyframes blink{
-  to{opacity: .0;}
-}
-
-::selection{
-  background: black;
+button{
+  display:inline-block;
+  white-space:nowrap;
+  vertical-align:middle; 
+  text-align: center; 
+  background: #000;
+  color: #FFCC00;
 }

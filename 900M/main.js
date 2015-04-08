@@ -83,7 +83,7 @@ function init() {
 	$(document.body).bind( 'keydown', onDocumentKeyDown, false );
 	$(document.body).bind( 'keyup', onDocumentKeyUp, false );
 	window.addEventListener( 'resize', onWindowResize, false );
-
+	$(document.body).addClass('stop-scrolling')
 }
 
 function render() { 
