@@ -4,19 +4,33 @@ body{
 } 
 
 .preface {
-    position: absolute;
-    width: 600px;
-    height: 50px;
-    top: 50%;
-    left: 50%;
-    margin-left: -300px; /* margin is -0.5 * dimension */
-    margin-top: -25px; 
-    display: table-cell;
-    font-style: italic;
-    font-size: 200%;
-    text-align: center; 
-    color: #FFCC00;
+  position: absolute;
+  width: 600px;
+  height: 50px;
+  top: 50%;
+  left: 50%;
+  margin-left: -300px; /* margin is -0.5 * dimension */
+  margin-top: -25px; 
+  display: table-cell;
+  font-style: italic;
+  font-size: 200%;
+  text-align: center; 
+  color: #FFCC00;
 }​
+
+.info {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  margin-left: 0px;
+}
+
+/*.ViewContainer {
+  position: absolute;
+  width: 600px;
+  height: 50px;
+  margin-left: 200px;
+}*/
 
 p{
   color: lime; 
