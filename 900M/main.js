@@ -1,13 +1,10 @@
-
-var renderer, camera, scene, cubes, objects, plane;
+var renderer, camera, scene, cubes, objects, plane, buffers;
 var bday;
-
-var windowHalfX = window.innerWidth / 2;
-var windowHalfY = window.innerHeight / 2;
 
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
-var isShiftDown, clear;   // flag
+var isShiftDown, clear, animate;   // flag
+
 function enter() {
 	$("#pref").hide().fadeOut(6000);
 
@@ -57,6 +54,7 @@ function init() {
 	objects = [];
 	objects.push( plane );
 	clear = false;
+	animate = false;
 
     for (var i = 0; i < len; i++) {
 
@@ -96,12 +94,17 @@ function init() {
 	$(document.body).bind( 'keydown', onDocumentKeyDown, false );
 	$(document.body).bind( 'keyup', onDocumentKeyUp, false );
 	window.addEventListener( 'resize', onWindowResize, false );
-	$(document.body).addClass('stop-scrolling');
 }
 
 function render() { 
-	// requestAnimationFrame( render );   
+
+	requestAnimationFrame( render );   
 	renderer.render( scene, camera );
+
+	if (animate) {
+		TWEEN.update();
+	};
+
 }
 
 function highlight() {
@@ -117,13 +120,11 @@ function highlight() {
 	// calculate objects intersecting the picking ray
 	var intersects = raycaster.intersectObjects( objects, true );
  
-  	for (var i = 0; i < intersects.length; i++) {
-    	if (intersects[i].object.geometry.type == "BoxGeometry") {
-    		intersects[i].object.material.materials[4].color.set( "white" );
-    		break;
+  	if ( intersects.length > 0) {
+    	if (intersects[0].object.geometry.type == "BoxGeometry") {
+    		intersects[0].object.material.materials[4].color.set( "white" );
     	}	
-    };
-
+    }
 }
 
 
@@ -143,9 +144,12 @@ function toggleScene() {
 		clear = false;
 	}
 
-	render();
 }
 
+/**
+ * click empty slot to add cube
+ * shift click cube to remove
+ **/
 function updateCube() {
 	// update the picking ray with the camera and mouse position	
 	raycaster.setFromCamera( mouse, camera );
@@ -155,19 +159,40 @@ function updateCube() {
     if (intersect.length > 0) {
     	if ( isShiftDown ) {
 			// remove cube
-			for (var i = 0; i < intersect.length; i++) {
-				if (intersect[i].object.geometry.type == "BoxGeometry") {
-					scene.remove( intersect[i].object );
-		            objects.splice( objects.indexOf( intersect[0].object ), 1 );
-		            break; 
-				}
+			if (intersect[0].object.geometry.type == "BoxGeometry") {
+				scene.remove( intersect[0].object );
+	            objects.splice( objects.indexOf( intersect[0].object ), 1);
 			}
         }
-	    else if ( !isShiftDown && intersect[0].object.geometry.type == "PlaneGeometry") {
+        else if ( intersect[0].object.geometry.type == "BoxGeometry") {
+			// animate or stop animate the cube
+        	var obj = intersect[0].object;
+            
+            if ( animate ) {
+            	animate = false;
+            	// move the cube back to the grid
+            	// ....
+            	//
+            } else {
+					viewCube( obj );
+				animate = true;
+            }
+        	
+
+        }
+	    else if ( intersect[0].object.geometry.type == "PlaneGeometry") {
             // add cube
 			var pos = intersect[0].point;
-		    pos.divideScalar( 20 ).floor().multiplyScalar( 20 ).addScalar( 10 );
-        
+		    pos.divideScalar(20).floor().multiplyScalar(20).addScalar(10);
+
+        	var num = Math.floor(( pos.x + 310 ) / 20 + Math.floor( 290 - pos.y) / 20 * 30 );
+	    	var cubeyear = Math.floor( num / 12 ) + bday.getFullYear();
+	        var cubemonth = ( Math.floor( num % 12 ) + bday.getMonth() ) + 1;
+	        if (cubemonth > 12) {
+	        	cubemonth = cubemonth % 12;
+	        	cubeyear += 1;
+	        }
+
         	var cube = new THREE.BoxGeometry(20, 20, 20);
 		    cube.applyMatrix( new THREE.Matrix4().makeTranslation( pos.x, pos.y, 10 ) );
 		    
@@ -181,37 +206,24 @@ function updateCube() {
 		    var faceMaterial = new THREE.MeshFaceMaterial(mats); 
 			
 			var mesh = new THREE.Mesh(cube, faceMaterial);     	
-	    	var num = Math.floor(( pos.x + 310 ) / 20 + Math.floor( 290 - pos.y) / 20 * 30 );
-	    	var cubeyear = Math.floor( num / 12 ) + bday.getFullYear();
-	        var cubemonth = ( Math.floor( num % 12 ) + bday.getMonth() ) + 1;
-	        if (cubemonth > 12) {
-	        	cubemonth = cubemonth % 12;
-	        	cubeyear += 1;
-	        }
-
-            console.log(cubeyear, cubemonth);
-
 	    	mesh.info = cubeyear.toString() + "-" + cubemonth.toString();  
 	    	mesh.mcolor =  new THREE.Color( "yellow" );
-	
+			 
+
     	    var cubeframe = new THREE.BoxHelper( mesh );
 			cubeframe.material.color.set( 0x0066ff );
-			mesh.add( cubeframe );
+			mesh.add(cubeframe);
 
             scene.add(mesh);
 		    objects.push(mesh);
 
 		}
     }
-
-    render();
 }
 
-function updateObj() {
-	var obj = scene.getObjectByName( "objectName" );
-
-}
-
+/**
+ * Save the current scene to an image
+ */
 function save() {
 
 	window.open( renderer.domElement.toDataURL('image/png'), 'mywindow' );
@@ -225,7 +237,6 @@ function onWindowResize() {
 	camera.updateProjectionMatrix();
 	renderer.setSize( window.innerWidth, window.innerHeight );
 
-	render();
 }
 
 function onMouseMove( event ) {
@@ -243,7 +254,6 @@ function onMouseMove( event ) {
        top:   event.pageY
     });
 
-    render();
 }
 
 $("#info").text(function(i){
@@ -255,7 +265,7 @@ function onDocumentMouseDown( event ) {
 	// mouse down ==> add cube
 	// shift + mouse down ==> delete cube
 	updateCube();
-	render();
+
 }
 
 function onDocumentKeyDown( event ) {
@@ -266,8 +276,6 @@ function onDocumentKeyDown( event ) {
 		case 68: toggleScene();
 		    break;
 	}
-
-
 }
 
 function onDocumentKeyUp( event ) {
