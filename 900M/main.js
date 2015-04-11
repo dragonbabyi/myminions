@@ -6,6 +6,8 @@ var mouse = new THREE.Vector2();
 var isShiftDown, clear, animate;   // flag
 var animCube;
 
+var CC = [0xffd500, 0x009e60, 0x0051ba, 0xffffff, "yellow", 0xC41E3A ];
+
 function enter() {
 	$("#pref").hide().fadeOut(6000);
 
@@ -61,12 +63,12 @@ function init() {
 
     	var newcube = new THREE.BoxGeometry(20, 20, 20);
 	    var mats = [];
-	    mats.push(new THREE.MeshBasicMaterial({ color: 0xffd500  }));
-	    mats.push(new THREE.MeshBasicMaterial({ color: 0x009e60  }));
-	    mats.push(new THREE.MeshBasicMaterial({ color: 0x0051ba  }));
-	    mats.push(new THREE.MeshBasicMaterial({ color: 0xffffff  }));
-	    mats.push(new THREE.MeshBasicMaterial({ color: "yellow"  }));  // backward
-	    mats.push(new THREE.MeshBasicMaterial({ color: 0xC41E3A }));
+	    mats.push(new THREE.MeshBasicMaterial({ color: CC[0] }));
+	    mats.push(new THREE.MeshBasicMaterial({ color: CC[1] }));
+	    mats.push(new THREE.MeshBasicMaterial({ color: CC[2] }));
+	    mats.push(new THREE.MeshBasicMaterial({ color: CC[3] }));
+	    mats.push(new THREE.MeshBasicMaterial({ color: CC[4] }));  // backward
+	    mats.push(new THREE.MeshBasicMaterial({ color: CC[5] }));
 	    var faceMaterial = new THREE.MeshFaceMaterial(mats); 
 
     	var mesh = new THREE.Mesh(newcube, faceMaterial); 
@@ -162,7 +164,7 @@ function updateCube() {
     if (intersect.length > 0) {
     	if ( animate ) { 
 			// move the cube back to the grid
-			resetCube( animCube );
+			resetCube( scene, animCube );
 			animCube = null;
 			animate = false;
 			return;
@@ -189,7 +191,7 @@ function updateCube() {
 
             if ( !animate ) {
 				animCube = obj;
-				viewCube( obj );
+				viewCube( scene, obj );
 				animate = true;
             }
         }
@@ -209,12 +211,12 @@ function updateCube() {
         	var cube = new THREE.BoxGeometry(20, 20, 20);
 		    
 		    var mats = [];
-		    mats.push(new THREE.MeshBasicMaterial({ color: 0xffd500  }));
-		    mats.push(new THREE.MeshBasicMaterial({ color: 0x009e60  }));
-		    mats.push(new THREE.MeshBasicMaterial({ color: 0x0051ba  }));
-		    mats.push(new THREE.MeshBasicMaterial({ color: 0xffffff  }));
-		    mats.push(new THREE.MeshBasicMaterial({ color: "yellow"  }));  // backward
-		    mats.push(new THREE.MeshBasicMaterial({ color: 0xC41E3A }));
+		    mats.push(new THREE.MeshBasicMaterial({ color: CC[0] }));
+		    mats.push(new THREE.MeshBasicMaterial({ color: CC[1] }));
+		    mats.push(new THREE.MeshBasicMaterial({ color: CC[2] }));
+		    mats.push(new THREE.MeshBasicMaterial({ color: CC[3] }));
+		    mats.push(new THREE.MeshBasicMaterial({ color: CC[4] })); 
+		    mats.push(new THREE.MeshBasicMaterial({ color: CC[5] }));
 		    var faceMaterial = new THREE.MeshFaceMaterial(mats); 
 			
 			var mesh = new THREE.Mesh(cube, faceMaterial);     	
