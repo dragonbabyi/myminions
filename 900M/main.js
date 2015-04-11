@@ -4,6 +4,7 @@ var bday;
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 var isShiftDown, clear, animate;   // flag
+var animCube;
 
 function enter() {
 	$("#pref").hide().fadeOut(6000);
@@ -59,7 +60,6 @@ function init() {
     for (var i = 0; i < len; i++) {
 
     	var newcube = new THREE.BoxGeometry(20, 20, 20);
-    	newcube.applyMatrix( new THREE.Matrix4().makeTranslation(Math.floor(i%30)*20 - 290, 290 - Math.floor(i/30)*20, 10) ); 
 	    var mats = [];
 	    mats.push(new THREE.MeshBasicMaterial({ color: 0xffd500  }));
 	    mats.push(new THREE.MeshBasicMaterial({ color: 0x009e60  }));
@@ -75,12 +75,17 @@ function init() {
     	mesh.info = cubeyear.toString() + "-" + cubemonth.toString(); // date
     	mesh.mcolor =  new THREE.Color( "yellow" );
 
+    	mesh.applyMatrix( new THREE.Matrix4().makeTranslation(Math.floor(i%30)*20 - 290, 290 - Math.floor(i/30)*20, 10) ); 
+    	mesh.pos = new THREE.Vector3( mesh.position.x, mesh.position.y, mesh.position.z );
+
         var cubeframe = new THREE.BoxHelper( mesh );
 		cubeframe.material.color.set( 0x0066ff );
-		mesh.add( cubeframe );
+		// mesh.add( cubeframe );
          
     	scene.add(mesh);
+    	scene.add(cubeframe);
     	objects.push(mesh);
+    	// objects.push(cubeframe);
 
     };
 
@@ -143,7 +148,6 @@ function toggleScene() {
 		})
 		clear = false;
 	}
-
 }
 
 /**
@@ -157,6 +161,14 @@ function updateCube() {
 	var intersect = raycaster.intersectObjects( objects, true );
 	
     if (intersect.length > 0) {
+    	if ( animate ) { 
+			// move the cube back to the grid
+			resetCube( animCube );
+			animCube = null;
+			animate = false;
+			return;
+		};
+
     	if ( isShiftDown ) {
 			// remove cube
 			if (intersect[0].object.geometry.type == "BoxGeometry") {
@@ -168,17 +180,11 @@ function updateCube() {
 			// animate or stop animate the cube
         	var obj = intersect[0].object;
             
-            if ( animate ) {
-            	animate = false;
-            	// move the cube back to the grid
-            	// ....
-            	//
-            } else {
-					viewCube( obj );
+            if ( !animate ) {
+				animCube = obj;
+				viewCube( obj );
 				animate = true;
             }
-        	
-
         }
 	    else if ( intersect[0].object.geometry.type == "PlaneGeometry") {
             // add cube
@@ -194,7 +200,6 @@ function updateCube() {
 	        }
 
         	var cube = new THREE.BoxGeometry(20, 20, 20);
-		    cube.applyMatrix( new THREE.Matrix4().makeTranslation( pos.x, pos.y, 10 ) );
 		    
 		    var mats = [];
 		    mats.push(new THREE.MeshBasicMaterial({ color: 0xffd500  }));
@@ -208,15 +213,17 @@ function updateCube() {
 			var mesh = new THREE.Mesh(cube, faceMaterial);     	
 	    	mesh.info = cubeyear.toString() + "-" + cubemonth.toString();  
 	    	mesh.mcolor =  new THREE.Color( "yellow" );
-			 
+		
+			mesh.applyMatrix( new THREE.Matrix4().makeTranslation( pos.x, pos.y, 10 ) );	 
+	    	mesh.pos = new THREE.Vector3( mesh.position.x, mesh.position.y, mesh.position.z );
 
     	    var cubeframe = new THREE.BoxHelper( mesh );
 			cubeframe.material.color.set( 0x0066ff );
-			mesh.add(cubeframe);
 
             scene.add(mesh);
+            scene.add(cubeframe);
 		    objects.push(mesh);
-
+			// objects.push(cubeframe);
 		}
     }
 }
@@ -261,6 +268,8 @@ $("#info").text(function(i){
 });
 
 function onDocumentMouseDown( event ) {
+	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;		
  
 	// mouse down ==> add cube
 	// shift + mouse down ==> delete cube
