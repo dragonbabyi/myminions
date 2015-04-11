@@ -80,12 +80,11 @@ function init() {
 
         var cubeframe = new THREE.BoxHelper( mesh );
 		cubeframe.material.color.set( 0x0066ff );
-		// mesh.add( cubeframe );
-         
+		   
     	scene.add(mesh);
     	scene.add(cubeframe);
     	objects.push(mesh);
-    	// objects.push(cubeframe);
+    	objects.push(cubeframe);
 
     };
 
@@ -172,14 +171,22 @@ function updateCube() {
     	if ( isShiftDown ) {
 			// remove cube
 			if (intersect[0].object.geometry.type == "BoxGeometry") {
-				scene.remove( intersect[0].object );
-	            objects.splice( objects.indexOf( intersect[0].object ), 1);
+				var obj = intersect[0].object;
+				scene.remove( obj );
+	            
+				// get the BoxHelper by id + 1
+				var objBoxId = obj.id + 1;
+				scene.remove( scene.getObjectById( objBoxId) );
+ 
+				objects.splice( objects.indexOf( obj ), 2);
 			}
         }
         else if ( intersect[0].object.geometry.type == "BoxGeometry") {
 			// animate or stop animate the cube
         	var obj = intersect[0].object;
-            
+            // reset the front face color
+            obj.material.materials[4].color.set( obj.mcolor );
+
             if ( !animate ) {
 				animCube = obj;
 				viewCube( obj );
@@ -223,7 +230,7 @@ function updateCube() {
             scene.add(mesh);
             scene.add(cubeframe);
 		    objects.push(mesh);
-			// objects.push(cubeframe);
+			objects.push(cubeframe);
 		}
     }
 }
@@ -253,19 +260,16 @@ function onMouseMove( event ) {
 	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;		
 
-    // compute the picker
-    highlight();
-    // show info box
-    $('#info').css({
-       left:  event.pageX,
-       top:   event.pageY
-    });
+    if ( !animate ) {
+    	// highlight the selection
+    	highlight();
+    } else {
+    	// rotate the cube
+		animCube.rotation.x += ( mouse.y * 10 ) * Math.PI / 180;
+		animCube.rotation.y += ( mouse.x * 10 ) * Math.PI / 180;
+    }
 
 }
-
-$("#info").text(function(i){
-  return  "aaaaa";
-});
 
 function onDocumentMouseDown( event ) {
 	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
