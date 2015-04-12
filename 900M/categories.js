@@ -68,7 +68,7 @@ var iconColors = [0xf08000, 0x8080f0, 0x008000, 0x008080, 0x0040f0, 0xf00000, 0x
 		var glowMaterial = new newMaterial ( "glowvert", "glowfrag", uniforms );
 
 		var textGlowMesh = new THREE.Mesh( textGeo, glowMaterial );
-        textGlowMesh.applyMatrix( new THREE.Matrix4().makeTranslation( i*10+len*15 - 290, 320, 20 )); 
+        textGlowMesh.applyMatrix( new THREE.Matrix4().makeTranslation( i*14+len*15 - 290, 320, 20 )); 
         textGlowMesh.scale.multiplyScalar(1.5);
 		elements.push( textGlowMesh );
 
@@ -86,6 +86,8 @@ var iconColors = [0xf08000, 0x8080f0, 0x008000, 0x008080, 0x0040f0, 0xf00000, 0x
  **/
 
  function createCate () {
+ 	// push the new scene to the categories
+ 	
 	
  }
 

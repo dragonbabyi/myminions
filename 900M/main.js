@@ -5,8 +5,7 @@ var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 var isShiftDown, clear, animate;   // flag
 var intersects, animCube;
-
-// var CC = [0xffd500, 0x009e60, 0x0051ba, 0xffffff, "yellow", 0xC41E3A ];
+ 
 var CC = [];
 $.each( faceColors, function(k, v) {
 	CC.push( v );
@@ -14,13 +13,14 @@ $.each( faceColors, function(k, v) {
  
 function enter() {
 	$("#pref").hide().fadeOut(6000);
+	buildGui();
 	init();
 	render();
 }
 
 function init() {
 
-	renderer = new THREE.WebGLRenderer();
+	renderer = new THREE.WebGLRenderer( { antialias: true, preserveDrawingBuffer: true} );
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	document.body.appendChild( renderer.domElement );
 
@@ -31,8 +31,7 @@ function init() {
 	// scene 
 	scene = new THREE.Scene();
 	scene.add(camera);  
-
-    // add grid
+ 
 	var size = 300; 
 	var step = 20; 
 	// add plane
@@ -41,6 +40,7 @@ function init() {
 	var plane = new THREE.Mesh( plane, material );
 	scene.add( plane );
 
+    // add grid
 	var gridXY = new THREE.GridHelper(size, step);
 	gridXY.position.set( 0, 0, 0 );
 	gridXY.rotation.x = Math.PI/2;
@@ -48,7 +48,7 @@ function init() {
 	scene.add(gridXY);
 
 	// init cubes 
-	bday = $('#birthday')[0].valueAsDate;
+	// bday = $('#birthday')[0].valueAsDate;
 	var currDate = new Date();
 	var y = currDate.getFullYear() - bday.getFullYear();
 	var m = currDate.getMonth() - bday.getMonth();
@@ -65,7 +65,7 @@ function init() {
 	var topbars = createTopbar();
 	topbars.forEach( function( element ) { scene.add( element ); }); 
 
-	// grid
+	// cube
     for (var i = 0; i < len; i++) {
 
     	var newcube = new THREE.BoxGeometry(20, 20, 20);
@@ -112,6 +112,10 @@ function init() {
 function render() { 
 
 	requestAnimationFrame( render );   
+
+	// update gui
+	// addCat.
+
 	renderer.render( scene, camera );
 
 	if (animate) {
@@ -298,20 +302,23 @@ function onDocumentMouseDown( event ) {
 	}
 }
 
-function onDocumentKeyDown( event ) {
+function onDocumentKeyDown( e ) {
 
-	switch( event.keyCode ) {
-		case 16: isShiftDown = true; 
-		    break;
-		case 68: toggleScene();
-		    break;
+	if ( e.shiftKey ) {
+		isShiftDown = true; 
+	} 
+	else if ( e.which === 68 ) {
+		toggleScene();
 	}
+	else if ( e.which === 83 ) {
+	    save();
+	}
+
 }
 
-function onDocumentKeyUp( event ) {
+function onDocumentKeyUp( e ) {
 
-	switch( event.keyCode ) {
-		case 16: isShiftDown = false; 
-		    break;
+	if ( e.shiftKey ) {
+		isShiftDown = false; 
 	}
 }
