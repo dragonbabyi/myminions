@@ -8,7 +8,7 @@
 	<script src="js/dat.gui.js"></script>
 	<script src='js/tween.min.js'></script>
 	<script src="fonts/helvetiker_regular.typeface.js"></script>
-	 
+	<script src="gui.js"></script>  
 	<script src="view.js"></script> 
 	<script src="categories.js"></script> 
 	<script src="shaderLoader.js"></script> 
@@ -20,30 +20,11 @@
     <script type="text/javascript">
 	        $(document).ready(function(){$("body").hide().fadeIn(6000);});
     </script>
-   
+ 
 	     
 </head>
 <body>
- <!-- 
-	<script type="text/javascript">    
-		var FizzyText = function() {
-		  this.message = 'dat.gui';
-		  this.speed = 0.8;
-		  this.displayOutline = false;
-		  // this.explode = function() {};
-		  // // Define render logic ...
-		};
-
-		window.onload = function() {
-		  var text = new FizzyText();
-		  var gui = new dat.GUI();
-		  gui.add(text, 'message');
-		  gui.add(text, 'speed', -5, 5);
-		  gui.add(text, 'displayOutline');
-		  gui.add(text, 'explode');
-		};    
-	</script>
-  -->
+  
  	<div class="preface" id="pref">
     	You have 900 months in total before 75 years old.   
     	That's a 30x30 rectangle of boxes, if you care to draw them. <br/> 
@@ -53,7 +34,7 @@
 		Birthday: <input type="date" id="birthday"> 
 		<button onclick="enter()">Enter</button>
 	</div>  
-	 
+ 
 	<script type="text/javascript" src="main.js"></script>
 </body>
 </html>
