@@ -2,22 +2,29 @@
 <html>
 <head>
 	<title>900 Months of Life</title>
-	<script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
-    <script type="text/javascript" src="js/jquery.ui.slider.js"></script>
-    <script type="text/javascript" src="js/three.min.js"></script>
-	<script type="text/javascript" src="js/dat.gui.js"></script>
-	<script type='text/javascript' src='js/tween.min.js'></script>
+	<script src="js/jquery-1.5.1.min.js"></script>
+    <script src="js/jquery.ui.slider.js"></script>
+    <script src="js/three.min.js"></script>
+	<script src="js/dat.gui.js"></script>
+	<script src='js/tween.min.js'></script>
+	<script src="fonts/helvetiker_regular.typeface.js"></script>
+	 
+	<script src="view.js"></script> 
+	<script src="categories.js"></script> 
+	<script src="shaderLoader.js"></script> 
 
-	<!-- // <script type="text/javascript" src="render.js"></script>  -->
-	<script type="text/javascript" src="view.js"></script> 
+    <script src="shaders/glow.vert" type="x-shader/x-vertex" id="glowvert"></script>
+	<script src="shaders/glow.frag" type="x-shader/x-fragment" id="glowfrag"></script>
+ 
     <link rel="stylesheet" type="text/css" href="style.css">
     <script type="text/javascript">
 	        $(document).ready(function(){$("body").hide().fadeIn(6000);});
-	    </script>
+    </script>
+   
 	     
 </head>
 <body>
-<!-- 
+ <!-- 
 	<script type="text/javascript">    
 		var FizzyText = function() {
 		  this.message = 'dat.gui';
@@ -36,16 +43,17 @@
 		  gui.add(text, 'explode');
 		};    
 	</script>
--->	 
+  -->
  	<div class="preface" id="pref">
-    	Your lifespan is likely about 900 months.   <br/> 
-    	That's a 30x30 rectangle of boxes, if you care to draw them.   
+    	You have 900 months in total before 75 years old.   
+    	That's a 30x30 rectangle of boxes, if you care to draw them. <br/> 
+    	See how much time left and what can you do.  
 	    <br/><br/><br/>
 
 		Birthday: <input type="date" id="birthday"> 
 		<button onclick="enter()">Enter</button>
 	</div>  
- 
+	 
 	<script type="text/javascript" src="main.js"></script>
 </body>
 </html>
