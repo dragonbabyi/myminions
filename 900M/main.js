@@ -12,8 +12,11 @@ $.each( faceColors, function(k, v) {
 });
  
 function enter() {
-	$("#pref").hide().fadeOut(6000);
+	$("#bg").hide().fadeOut(6000);
 	buildGui();
+	$("#whiteboard").show();
+	displayboard();
+	
 	init();
 	render();
 }
@@ -48,7 +51,7 @@ function init() {
 	scene.add(gridXY);
 
 	// init cubes 
-	// bday = $('#birthday')[0].valueAsDate;
+	bday = $('#birthday')[0].valueAsDate;
 	var currDate = new Date();
 	var y = currDate.getFullYear() - bday.getFullYear();
 	var m = currDate.getMonth() - bday.getMonth();
@@ -114,13 +117,11 @@ function render() {
 	requestAnimationFrame( render );   
 
 	// update gui
-	// addCat.
 
 	renderer.render( scene, camera );
 
-	if (animate) {
-		// TWEEN.update();
-	}
+	// if (animate) {		 
+	// }
 
 }
 
