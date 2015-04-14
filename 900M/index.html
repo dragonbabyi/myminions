@@ -12,29 +12,39 @@
 	<script src="view.js"></script> 
 	<script src="categories.js"></script> 
 	<script src="shaderLoader.js"></script> 
+	<script src="whiteboard.js"></script> 
 
-    <script src="shaders/glow.vert" type="x-shader/x-vertex" id="glowvert"></script>
+	<script src="shaders/glow.vert" type="x-shader/x-vertex" id="glowvert"></script>
 	<script src="shaders/glow.frag" type="x-shader/x-fragment" id="glowfrag"></script>
- 
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <script type="text/javascript">
-	        $(document).ready(function(){$("body").hide().fadeIn(6000);});
-    </script>
+
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script type="text/javascript">
+        $(document).ready(function() {
+        	$("body").hide().fadeIn(6000);
+	        $("#whiteboard").hide();
+	    });
+	</script>
  
 	     
 </head>
 <body>
-  
- 	<div class="preface" id="pref">
-    	You have 900 months in total before 75 years old.   
-    	That's a 30x30 rectangle of boxes, if you care to draw them. <br/> 
-    	See how much time left and what can you do.  
-	    <br/><br/><br/>
+	<div class="container" id="bg">
+	  <div class="preface" id="pref"> 
+		You have 900 months in total before 75 years old.   
+		That's a 30x30 rectangle of boxes.  <br/> 
+	    How did you spend your time? Draw it out. <br/> 
+		See how much time you left and what you can do. <br/>  
+	    <br/><br/>
 
 		Birthday: <input type="date" id="birthday"> 
 		<button onclick="enter()">Enter</button>
-	</div>  
+	  </div> 
+	</div>	
+		
+	<div id="whiteboard">
+		<span id="info"></span>
+	</div>	
  
-	<script type="text/javascript" src="main.js"></script>
+	<script src="main.js"></script>
 </body>
 </html>
