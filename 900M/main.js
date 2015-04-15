@@ -1,4 +1,11 @@
 var renderer, camera, scene, cubes, objects, plane, buffers;
+
+// each category has a sperate "scene" 
+// "Origin", "Family", "Relationship", "Study", "Learning"
+var categories = [];
+var cateSceneObj = [];
+var currSceneIndex = 0;
+
 var bday = new Date("Dec 24, 1988");
 
 var raycaster = new THREE.Raycaster();
@@ -86,6 +93,7 @@ function init() {
         var cubemonth = Math.floor(i % 12) + bday.getMonth() + 1;
     	mesh.info = cubeyear.toString() + "-" + cubemonth.toString(); // date
     	mesh.mcolor =  new THREE.Color( CC[4] );
+    	mesh.label = "origin";
 
     	mesh.applyMatrix( new THREE.Matrix4().makeTranslation(Math.floor(i%30)*20 - 290, 290 - Math.floor(i/30)*20, 10) ); 
     	mesh.pos = new THREE.Vector3( mesh.position.x, mesh.position.y, mesh.position.z );
@@ -130,22 +138,42 @@ function highlight ( obj ) {
     if ( obj.geometry.type == "BoxGeometry" ) {
     	obj.material.materials[4].color.set( "white" );
     }
+    // todo: display cube.info in the whiteboard
+
+
+    
 }
 
 
 function toggleScene() {
-
+    // save the current scene in the slot, and show an empty scene
+    // if toggle again, recursively show next scene
 	if ( !clear ) {
         // clear scene
 	    objects.forEach(function( mesh ) {
 			scene.remove(mesh);
 	    })
+
+	    // cateSceneObj[currSceneIndex++] = objects;   
+	    // moved this function to gui, only add if choose to add scene
+	    var plane = objects[0];
+	    objects = [];
+	    objects.push(plane);
 	    clear = true;
 	} else {
-        // recover scene
-   		objects.forEach(function( mesh ) {
-			scene.add(mesh);
-		})
+        // show next scene
+        var len = cateSceneObj.length;
+        if ( currSceneIndex % len == 0 ) {
+        	objects = cateSceneObj[0];
+	   		objects.forEach(function( mesh ) {
+				scene.add(mesh);
+			})
+        } else if (len > 1) {
+        	// if more scenes added
+        	drawScene( currSceneIndex );
+        }
+        currSceneIndex++; 
+
 		clear = false;
 	}
 }

@@ -17,10 +17,6 @@ var faceColors = {
 
 var faces = ["health", "happiness", "work", "learn", "love", "passion"];
 
-// each category may have a sperate scene when it is selected
-var categories = ["Where", "Family", "Relationship", "Study", "Learning"];
-var cateScenes;
-
 var iconColors = [0xf08000, 0x8080f0, 0x008000, 0x008080, 0x0040f0, 0xf00000, 0x00f000, 0x404040, 0xf000f0, 0x804000, 0x808080];
 
 /**
@@ -28,7 +24,7 @@ var iconColors = [0xf08000, 0x8080f0, 0x008000, 0x008080, 0x0040f0, 0xf00000, 0x
  *
  **/
 
- function createTopbar () {
+function createTopbar() {
 
  	var elements = [];
  	var len = 0;
@@ -78,18 +74,7 @@ var iconColors = [0xf08000, 0x8080f0, 0x008000, 0x008080, 0x0040f0, 0xf00000, 0x
 
  	return elements;
 
- }
-
- /**
- * Create categories buckets
- *
- **/
-
- function createCate () {
- 	// push the new scene to the categories
- 	
-	
- }
+}
 
 // var numbers = {
 // 	"IceCreamYouCanEat": {

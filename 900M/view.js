@@ -75,10 +75,7 @@ function editCube (scene, animCube, intersect) {
 
         var center = intersect.object.position;
         var point = intersect.point;
-        var distance = ( point - center ).length();
-        // set the HSL and convert it to RGB
-        
-    	 
+        var distance = ( point - center ).length(); 
 
 
     } else { // else rotate the cube 
@@ -91,6 +88,7 @@ function editCube (scene, animCube, intersect) {
 }
 
 function highlightFace ( str ) {
+	// todo
 	// if select one face text in the topbar
 	// rotate all the cubes to make that face facing forward
 	//....
