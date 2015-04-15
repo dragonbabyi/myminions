@@ -138,11 +138,10 @@ function highlight ( obj ) {
 
     if ( obj.geometry.type == "BoxGeometry" ) {
     	obj.material.materials[4].color.set( "white" );
+
+	    // display cube.info in the whiteboard
+	    updateStr( obj ); 
     }
-    // todo: display cube.info in the whiteboard
-
-
-    
 }
 
 
@@ -162,16 +161,12 @@ function toggleScene() {
 	} else {
         // show next scene
         var len = cateSceneObj.length;
-        if ( currSceneIndex % len == 0 ) {
-        	objects = cateSceneObj[0];
+        if (len > 0) {
+		    objects = cateSceneObj[currSceneIndex];
 	   		objects.forEach(function( mesh ) {
 				scene.add(mesh);
 			})
-        } else if (len > 1) {
-        	// if more scenes added
-        	drawScene( currSceneIndex );
-        }
-        currSceneIndex++; 
+        };
 
 		clear = false;
 	}

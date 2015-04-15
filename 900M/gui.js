@@ -5,8 +5,9 @@
 var gui;
 
 var AddScene = function() {
-	this.name = 'New scene name';
-	this.info = 'what is it about';
+	this.type = "scene";
+	this.name = "New scene name";
+	this.info = "What is it about";
 	this.doneEditingScene = function() {
 
 		// push to cateSceneObj
@@ -48,20 +49,20 @@ var AddSpan = function() {
 		for (var i = startIndex; i <= endIndex; i++) {
 
 			var newcube = new THREE.BoxGeometry(20, 20, 20);
-			// var mats = [];
-			// mats.push(new THREE.MeshBasicMaterial({ color: CC[0] }));
-			// mats.push(new THREE.MeshBasicMaterial({ color: CC[1] }));
-			// mats.push(new THREE.MeshBasicMaterial({ color: CC[2] }));
-			// mats.push(new THREE.MeshBasicMaterial({ color: CC[3] }));
-			// mats.push(new THREE.MeshBasicMaterial({ color: CC[4] }));  
-			// mats.push(new THREE.MeshBasicMaterial({ color: CC[5] }));
-			// var faceMaterial = new THREE.MeshFaceMaterial(mats); 
-			var faceMaterial = new THREE.MeshBasicMaterial( { color: this.color } );
+			var mats = [];
+			mats.push(new THREE.MeshBasicMaterial({ color: this.color }));
+			mats.push(new THREE.MeshBasicMaterial({ color: this.color }));
+			mats.push(new THREE.MeshBasicMaterial({ color: this.color }));
+			mats.push(new THREE.MeshBasicMaterial({ color: this.color }));
+			mats.push(new THREE.MeshBasicMaterial({ color: this.color }));  
+			mats.push(new THREE.MeshBasicMaterial({ color: this.color }));
+			var faceMaterial = new THREE.MeshFaceMaterial(mats); 
+			 
 			var mesh = new THREE.Mesh(newcube, faceMaterial); 
 			var cubeyear = Math.floor(i / 12) + bday.getFullYear();    	
 			var cubemonth = Math.floor(i % 12) + bday.getMonth() + 1;
 			mesh.info = cubeyear.toString() + "-" + cubemonth.toString() + ": " + this.info; 
-			mesh.mcolor =  new THREE.Color( CC[4] );
+			mesh.mcolor =  new THREE.Color( this.color );
 			mesh.label = this.label;
 
 			mesh.applyMatrix( new THREE.Matrix4().makeTranslation(Math.floor(i%30)*20 - 290, 290 - Math.floor(i/30)*20, 10) ); 
@@ -92,15 +93,7 @@ function buildGui() {
 	
 	var spanColor = spanfolder.addColor( newSpan, 'color' ).name('Color').listen();
 
-	// var spanOpacity = spanfolder.add( newSpan, 'opacity' ).min(0).max(1).step(0.01).name('Opacity').listen();
-	// spanOpacity.onChange(function(value) { 
-	// 	// cube.material.opacity = value; 
-	// });
-	
-	// var spanLabel = spanfolder.add( newSpan, 'label', categories ).name('Category').listen();
-	// spanLabel.onChange(function(value) { 
-	// 	// updateCube(); 
-	// });
+	var spanLabel = spanfolder.add( newSpan, 'label').name('Label').listen();
 
     var spanInfo = spanfolder.add(newSpan, 'info').name('Info').listen();
 
