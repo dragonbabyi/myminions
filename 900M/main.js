@@ -124,10 +124,11 @@ function render() {
 
 	requestAnimationFrame( render );   
 
-	// update gui
+	// update board
+	displayboard();
 
 	renderer.render( scene, camera );
-
+	
 	// if (animate) {		 
 	// }
 
@@ -149,13 +150,11 @@ function toggleScene() {
     // save the current scene in the slot, and show an empty scene
     // if toggle again, recursively show next scene
 	if ( !clear ) {
-        // clear scene
-	    objects.forEach(function( mesh ) {
-			scene.remove(mesh);
-	    })
+        // clear scene, skip the first (plane)
+		for (var i = 1; i < objects.length; i++) {
+			scene.remove( objects[i] );
+		};
 
-	    // cateSceneObj[currSceneIndex++] = objects;   
-	    // moved this function to gui, only add if choose to add scene
 	    var plane = objects[0];
 	    objects = [];
 	    objects.push(plane);
