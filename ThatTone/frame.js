@@ -7,8 +7,6 @@ var SCREEN_HEIGHT = $("#editor").height();
 
 var container,stats;
 
-var imageCanvas, context;
-
 var camera, scene, scene2, renderer;
 
 var mesh, mesh2, texturePainting, materialPainting, texturePainting2, materialPainting2;
@@ -31,24 +29,6 @@ function init() {
 
 	scene = new THREE.Scene();
 	scene2 = new THREE.Scene();
-
-	imageCanvas = document.createElement( "canvas" );
-	context = imageCanvas.getContext( "2d" );
-
-	imageCanvas.width = imageCanvas.height = 128;
-
-
-	var textureCanvas = new THREE.Texture( imageCanvas, THREE.UVMapping, THREE.RepeatWrapping, THREE.RepeatWrapping );
-		materialCanvas = new THREE.MeshBasicMaterial( { map: textureCanvas } );
-
-	textureCanvas.needsUpdate = true;
-	textureCanvas.repeat.set( 1000, 1000 );
-
-	var textureCanvas2 = new THREE.Texture( imageCanvas, THREE.UVMapping, THREE.RepeatWrapping, THREE.RepeatWrapping, THREE.NearestFilter, THREE.NearestFilter );
-		materialCanvas2 = new THREE.MeshBasicMaterial( { color: 0xffccaa, map: textureCanvas2 } );
-
-	textureCanvas2.needsUpdate = true;
-	textureCanvas2.repeat.set( 1000, 1000 );
 
 	var callbackPainting = function() {
 
@@ -98,7 +78,9 @@ function init() {
     };
     materialPainting2 = new newMaterial(vertShaderId, fragShaderId, uniforms);
 
-	renderer = new THREE.WebGLRenderer();
+	renderer = new THREE.WebGLRenderer({
+		preserveDrawingBuffer   : true   // required to support .toDataURL()
+	});
 	renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
 	renderer.setClearColor( 0, 0, 0, 1 );
 	renderer.autoClear = false;
@@ -152,29 +134,24 @@ function loadshader(vertex, fragment, param) {
     newtexturePainting2.minFilter = newtexturePainting2.magFilter = THREE.NearestFilter;
 }
 
+// todo
 function updateUniforms(param) {
 
 	// update uniforms 
     
-
 	// create new material
 
 }
-
-//////  todo: broken  ////// 
+ 
 function saveImage() {
-	window.open(imageCanvas.toDataURL('image/png').replace("image/png", "image/octet-stream"));  
+	window.open( renderer.domElement.toDataURL('image/png'), 'myimg' );  
 }
 
 function onDocumentMouseMove(event) {
-	// document.addEventListener('mousedown', 
-	// 	(function() {mid = Math.max( 0, event.clientX - 350)}), false );
-
-	mid = Math.max( 0, event.clientX - 350);
+	mid = Math.max( 2, event.clientX - 350);
 }
 
 function animate() {
-
 	requestAnimationFrame( animate );
 	render();
 }
